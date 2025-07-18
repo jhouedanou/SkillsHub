@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direction Technologique - Slides Interactifs</title>
+    <style>
+        :root {
+            --primary-orange: #FF7A00;
+            --primary-green: #4CAF50;
+            --primary-blue: #2196F3;
+            --dark-bg-primary: #1a1a1a;
+            --dark-bg-secondary: #2d2d2d;
+            --dark-bg-tertiary: #3d3d3d;
+            --dark-text-primary: #ffffff;
+            --dark-text-secondary: #e0e0e0;
+            --dark-text-muted: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--dark-bg-primary);
+            color: var(--dark-text-primary);
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            padding: 60px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        .slide-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark-bg-secondary);
+            padding: 20px 60px;
+            border-bottom: 1px solid var(--dark-bg-tertiary);
+            z-index: 100;
+        }
+
+        .slide-number {
+            color: var(--primary-orange);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .slide-title {
+            font-size: 1.4rem;
+            color: var(--dark-text-primary);
+            margin-top: 5px;
+        }
+
+        .slide-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--dark-bg-secondary);
+            padding: 20px 60px;
+            border-top: 1px solid var(--dark-bg-tertiary);
+            z-index: 100;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-blue);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: var(--dark-bg-tertiary);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-indicators {
+            display: flex;
+            gap: 8px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--dark-bg-tertiary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: var(--primary-orange);
+        }
+
+        .indicator:hover {
+            background: var(--primary-blue);
+        }
+
+        .slide-content {
+            margin-top: 80px;
+            margin-bottom: 80px;
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: var(--primary-orange);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(255, 122, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        h2 {
+            font-size: 3rem;
+            color: var(--primary-blue);
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--primary-green);
+            padding-bottom: 15px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        h3 {
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--dark-text-secondary);
+            margin-bottom: 3rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 3rem 0;
+        }
+
+        .tech-card {
+            background: var(--dark-bg-secondary);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid var(--dark-bg-tertiary);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary-orange);
+            box-shadow: 0 10px 30px rgba(255, 122, 0, 0.2);
+        }
+
+        .tech-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--primary-orange);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 3rem 0;
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-green));
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .metric-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .metric-label {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .architecture-diagram {
+            background: var(--dark-bg-secondary);
+            border-radius: 15px;
+            padding: 40px;
+            margin: 3rem 0;
+            border: 1px solid var(--primary-blue);
+            animation: fadeInUp 1s ease-out 1.2s both;
+        }
+
+        .code-block {
+            background: var(--dark-bg-tertiary);
+            border-radius: 10px;
+            padding: 30px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: left;
+            margin: 2rem 0;
+            border: 1px solid var(--dark-bg-secondary);
+            animation: fadeInUp 1s ease-out 1.4s both;
+        }
+
+        .timeline {
+            position: relative;
+            margin: 3rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary-orange);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 40px 0;
+            padding: 20px;
+            background: var(--dark-bg-secondary);
+            border-radius: 10px;
+            width: 45%;
+            animation: fadeInUp 1s ease-out 1.6s both;
+        }
+
+        .timeline-item:nth-child(even) {
+            margin-left: 55%;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-orange);
+            border-radius: 50%;
+            top: 30px;
+        }
+
+        .timeline-item:nth-child(odd)::before {
+            right: -60px;
+        }
+
+        .timeline-item:nth-child(even)::before {
+            left: -60px;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--primary-orange);
+            z-index: 200;
+            transition: width 0.3s ease;
+        }
+
+        .fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            z-index: 150;
+            transition: all 0.3s ease;
+        }
+
+        .fullscreen-btn:hover {
+            background: var(--primary-orange);
+            transform: scale(1.1);
+        }
+
+        .slide-animation {
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .highlight {
+            background: linear-gradient(90deg, var(--primary-orange), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+
+        .list-animated {
+            list-style: none;
+            padding: 0;
+        }
+
+        .list-animated li {
+            background: var(--dark-bg-secondary);
+            padding: 15px 25px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary-green);
+            animation: fadeInLeft 0.5s ease-out both;
+        }
+
+        .list-animated li:nth-child(1) { animation-delay: 0.1s; }
+        .list-animated li:nth-child(2) { animation-delay: 0.2s; }
+        .list-animated li:nth-child(3) { animation-delay: 0.3s; }
+        .list-animated li:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px 20px;
+            }
+            
+            .slide-header, .slide-footer {
+                padding: 15px 20px;
+            }
+            
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            
+            .tech-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: calc(100% - 60px);
+                margin-left: 60px;
+            }
+            
+            .timeline-item::before {
+                left: -50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="progressBar"></div>
+        
+        <!-- Fullscreen Button -->
+        <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
+        
+        <!-- Slide Header -->
+        <div class="slide-header">
+            <div class="slide-number" id="slideNumber">1 / 12</div>
+            <div class="slide-title" id="slideTitle">Direction Technologique & Innovation</div>
+        </div>
+
+        <!-- Slide 1: Titre -->
+        <div class="slide active" data-title="Direction Technologique & Innovation">
+            <div class="slide-content">
+                <h1>🚀 Direction Technologique</h1>
+                <div class="subtitle">Architecture & Innovation Stratégique</div>
+                <h3>Vision technique pour une plateforme d'excellence</h3>
+                <p class="subtitle">Focus sur les technologies de pointe et l'innovation</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Vision -->
+        <div class="slide" data-title="Vision Directionnelle">
+            <div class="slide-content">
+                <h2>🎯 Vision Directionnelle</h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon">🌟</div>
+                        <h3>Mission Technologique</h3>
+                        <ul class="list-animated">
+                            <li><strong>Révolutionner</strong> l'apprentissage numérique</li>
+                            <li><strong>Créer</strong> une architecture scalable</li>
+                            <li><strong>Implémenter</strong> les meilleures pratiques</li>
+                            <li><strong>Assurer</strong> une UX exceptionnelle</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🎯</div>
+                        <h3>Objectifs Stratégiques</h3>
+                        <ul class="list-animated">
+                            <li><strong>Performance</strong> : < 2s de chargement</li>
+                            <li><strong>Disponibilité</strong> : 99.9% uptime</li>
+                            <li><strong>Scalabilité</strong> : 10,000+ utilisateurs</li>
+                            <li><strong>Sécurité</strong> : Conformité RGPD</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Stack Technologique -->
+        <div class="slide" data-title="Stack Technologique">
+            <div class="slide-content">
+                <h2>🛠️ Stack Technologique</h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon">⚡</div>
+                        <h3>Frontend Moderne</h3>
+                        <ul class="list-animated">
+                            <li><strong>React 18</strong> - Composants réactifs</li>
+                            <li><strong>Next.js 14</strong> - Server-side rendering</li>
+                            <li><strong>TypeScript</strong> - Type safety</li>
+                            <li><strong>Tailwind CSS</strong> - Design system</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🔧</div>
+                        <h3>Backend Robuste</h3>
+                        <ul class="list-animated">
+                            <li><strong>Node.js 20</strong> - Runtime performant</li>
+                            <li><strong>Express.js</strong> - API REST</li>
+                            <li><strong>GraphQL</strong> - Requêtes optimisées</li>
+                            <li><strong>Prisma</strong> - ORM moderne</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Architecture -->
+        <div class="slide" data-title="Architecture Système">
+            <div class="slide-content">
+                <h2>🏗️ Architecture Système</h2>
+                <div class="architecture-diagram">
+                    <h3>Architecture Microservices</h3>
+                    <div class="code-block">
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   API Gateway   │    │   Auth Service  │
+│   (React/Next)  │◄──►│   (Kong/Nginx)  │◄──►│   (Auth0/JWT)   │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                                │
+                ┌───────────────┼───────────────┐
+                │               │               │
+        ┌───────▼──────┐ ┌─────▼──────┐ ┌──────▼──────┐
+        │ User Service │ │ Course     │ │ Payment     │
+        │              │ │ Service    │ │ Service     │
+        └──────────────┘ └────────────┘ └─────────────┘
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Métriques -->
+        <div class="slide" data-title="Métriques de Performance">
+            <div class="slide-content">
+                <h2>📊 Métriques de Performance</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-number">< 2s</div>
+                        <div class="metric-label">Temps de chargement</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">99.9%</div>
+                        <div class="metric-label">Disponibilité</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">10K+</div>
+                        <div class="metric-label">Utilisateurs simultanés</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">A+</div>
+                        <div class="metric-label">Score de sécurité</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Sécurité -->
+        <div class="slide" data-title="Sécurité & Conformité">
+            <div class="slide-content">
+                <h2>🔐 Sécurité & Conformité</h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon">🛡️</div>
+                        <h3>Authentification</h3>
+                        <ul class="list-animated">
+                            <li>JWT + Refresh Tokens</li>
+                            <li>OAuth 2.0 / OpenID</li>
+                            <li>Multi-Factor Auth</li>
+                            <li>Rate Limiting</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🔒</div>
+                        <h3>Chiffrement</h3>
+                        <ul class="list-animated">
+                            <li>HTTPS/TLS 1.3</li>
+                            <li>AES-256 encryption</li>
+                            <li>Hash bcrypt/Argon2</li>
+                            <li>End-to-end encryption</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Roadmap -->
+        <div class="slide" data-title="Roadmap Technique">
+            <div class="slide-content">
+                <h2>🚀 Roadmap Technique</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h3>🏗️ Phase 1 : Infrastructure</h3>
+                        <p><strong>Mois 1-2</strong> : Setup CI/CD, environnements, sécurité</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>⚡ Phase 2 : Développement</h3>
+                        <p><strong>Mois 3-4</strong> : API, Frontend, authentification, paiement</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h3>🔄 Phase 3 : Optimisation</h3>
+                        <p><strong>Mois 5-6</strong> : Performance, scaling, analytics</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Innovation -->
+        <div class="slide" data-title="Innovation & UX">
+            <div class="slide-content">
+                <h2>📱 Innovation & UX</h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon">🎨</div>
+                        <h3>Design System</h3>
+                        <ul class="list-animated">
+                            <li><strong>Atomic Design</strong> - Composants modulaires</li>
+                            <li><strong>Design Tokens</strong> - Cohérence visuelle</li>
+                            <li><strong>Accessibility</strong> - WCAG 2.1 AA</li>
+                            <li><strong>Responsive</strong> - Mobile-first</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🤖</div>
+                        <h3>Intelligence Artificielle</h3>
+                        <ul class="list-animated">
+                            <li><strong>Recommandations</strong> personnalisées</li>
+                            <li><strong>Chatbot</strong> support automatisé</li>
+                            <li><strong>Analytics</strong> prédictives</li>
+                            <li><strong>Content Generation</strong> assistée</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Technologies Émergentes -->
+        <div class="slide" data-title="Technologies Émergentes">
+            <div class="slide-content">
+                <h2>💡 Technologies Émergentes</h2>
+                <div class="tech-grid">
+                    <div class="tech-card">
+                        <div class="tech-icon">🧠</div>
+                        <h3>IA & Machine Learning</h3>
+                        <ul class="list-animated">
+                            <li><strong>TensorFlow.js</strong> - ML côté client</li>
+                            <li><strong>OpenAI API</strong> - GPT intégration</li>
+                            <li><strong>Personalization</strong> - Algorithmes adaptatifs</li>
+                        </ul>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🌐</div>
+                        <h3>Web3 & Blockchain</h3>
+                        <ul class="list-animated">
+                            <li><strong>NFT Certificates</strong> - Diplômes blockchain</li>
+                            <li><strong>Smart Contracts</strong> - Automatisation</li>
+                            <li><strong>Crypto Payments</strong> - Intégration future</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Plan d'Exécution -->
+        <div class="slide" data-title="Plan d'Exécution">
+            <div class="slide-content">
+                <h2>🎯 Plan d'Exécution</h2>
+                <div class="code-block">
+<strong>Sprint 1-2 : Foundation</strong>
+✅ Setup repository & branching strategy
+✅ CI/CD pipeline configuration
+✅ Infrastructure provisioning
+✅ Security baseline implementation
+
+<strong>Sprint 3-4 : Core Development</strong>
+🔄 API development & testing
+🔄 Database schema & migrations
+🔄 Authentication & authorization
+🔄 Frontend component library
+
+<strong>Sprint 5-6 : Integration</strong>
+⏳ System integration testing
+⏳ Performance optimization
+⏳ Security penetration testing
+⏳ User acceptance testing
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Métriques de Succès -->
+        <div class="slide" data-title="Métriques de Succès">
+            <div class="slide-content">
+                <h2>📈 Métriques de Succès</h2>
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-number">95%</div>
+                        <div class="metric-label">Code Coverage</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">0</div>
+                        <div class="metric-label">Vulnérabilités Critiques</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">100%</div>
+                        <div class="metric-label">Tests Automatisés</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-number">A</div>
+                        <div class="metric-label">Lighthouse Score</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Conclusion -->
+        <div class="slide" data-title="Discussion & Q&A">
+            <div class="slide-content">
+                <h1>🤝 Discussion & Q&A</h1>
+                <div class="subtitle">Questions Techniques</div>
+                <div class="tech-card" style="max-width: 600px; margin: 0 auto;">
+                    <div class="tech-icon">💬</div>
+                    <h3>Contact Technique</h3>
+                    <ul class="list-animated">
+                        <li>🔧 <strong>CTO</strong> - tech@company.com</li>
+                        <li>📱 <strong>DevOps</strong> - devops@company.com</li>
+                        <li>🌐 <strong>Architecture</strong> - architecture@company.com</li>
+                    </ul>
+                </div>
+                <div class="highlight" style="font-size: 1.5rem; margin-top: 2rem;">
+                    Construisons ensemble l'avenir technologique !
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide Footer -->
+        <div class="slide-footer">
+            <div class="navigation">
+                <button class="nav-btn" onclick="previousSlide()" id="prevBtn">◀ Précédent</button>
+                <div class="slide-indicators" id="indicators"></div>
+                <button class="nav-btn" onclick="nextSlide()" id="nextBtn">Suivant ▶</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // Initialize
+        function init() {
+            updateSlideIndicators();
+            updateSlideInfo();
+            updateProgressBar();
+            updateNavigationButtons();
+        }
+
+        // Create slide indicators
+        function updateSlideIndicators() {
+            const indicatorsContainer = document.getElementById('indicators');
+            indicatorsContainer.innerHTML = '';
+            
+            for (let i = 0; i < totalSlides; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator';
+                if (i === currentSlide) indicator.classList.add('active');
+                indicator.onclick = () => goToSlide(i);
+                indicatorsContainer.appendChild(indicator);
+            }
+        }
+
+        // Update slide info
+        function updateSlideInfo() {
+            document.getElementById('slideNumber').textContent = `${currentSlide + 1} / ${totalSlides}`;
+            document.getElementById('slideTitle').textContent = slides[currentSlide].dataset.title;
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        // Update navigation buttons
+        function updateNavigationButtons() {
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        // Go to specific slide
+        function goToSlide(slideIndex) {
+            if (slideIndex >= 0 && slideIndex < totalSlides) {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = slideIndex;
+                slides[currentSlide].classList.add('active', 'slide-animation');
+                
+                // Remove animation class after animation completes
+                setTimeout(() => {
+                    slides[currentSlide].classList.remove('slide-animation');
+                }, 800);
+                
+                updateSlideIndicators();
+                updateSlideInfo();
+                updateProgressBar();
+                updateNavigationButtons();
+            }
+        }
+
+        // Next slide
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                goToSlide(currentSlide + 1);
+            }
+        }
+
+        // Previous slide
+        function previousSlide() {
+            if (currentSlide > 0) {
+                goToSlide(currentSlide - 1);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowRight':
+                case ' ':
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                    previousSlide();
+                    break;
+                case 'Home':
+                    goToSlide(0);
+                    break;
+                case 'End':
+                    goToSlide(totalSlides - 1);
+                    break;
+                case 'F11':
+                    e.preventDefault();
+                    toggleFullscreen();
+                    break;
+            }
+        });
+
+        // Fullscreen toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Auto-advance (optional)
+        let autoAdvanceInterval;
+        function startAutoAdvance() {
+            autoAdvanceInterval = setInterval(() => {
+                if (currentSlide < totalSlides - 1) {
+                    nextSlide();
+                } else {
+                    stopAutoAdvance();
+                }
+            }, 10000); // 10 seconds
+        }
+
+        function stopAutoAdvance() {
+            clearInterval(autoAdvanceInterval);
+        }
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    previousSlide();
+                }
+            }
+        }
+
+        // Initialize presentation
+        init();
+
+        // Optional: Start auto-advance (uncomment to enable)
+        // startAutoAdvance();
+    </script>
+</body>
+</html>
