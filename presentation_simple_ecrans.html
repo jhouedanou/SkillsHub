@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillHub - Présentation Projet</title>
+    <title>SkillsHub - Présentation Projet</title>
     <style>
         :root {
-            --primary-orange: #FF7A00;
-            --primary-green: #4CAF50;
-            --primary-blue: #2196F3;
-            --dark-bg: #1a1a1a;
-            --dark-card: #2d2d2d;
-            --text-primary: #ffffff;
-            --text-secondary: #e0e0e0;
+            --primary-blue: #3182CE; /* Bleu vibrant principal */
+            --primary-teal: #5FC8BE; /* Teal clair */
+            --primary-teal-dark: #3CAAA0; /* Teal plus foncé */
+            --muted-beige: #E6EBE0; /* Beige/vert très clair */
+            --dark-text: #1E1E1E; /* Texte principal très foncé */
+            --secondary-text: #646464; /* Texte secondaire gris */
+            --white: #FFFFFF;
+            --light-gray: #F8F9FA;
+            --accent-red: #964632; /* Rouge-brun pour accents */
         }
 
         * {
@@ -22,10 +24,11 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-primary);
+            font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--dark-text);
             overflow: hidden;
+            line-height: 1.6;
         }
 
         .presentation {
@@ -57,30 +60,34 @@
 
         h1 {
             font-size: 4rem;
-            color: var(--primary-orange);
+            color: var(--primary-blue);
             margin-bottom: 1rem;
-            text-shadow: 0 0 20px rgba(255, 122, 0, 0.3);
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         h2 {
             font-size: 3rem;
-            color: var(--primary-blue);
+            color: var(--dark-text);
             margin-bottom: 2rem;
-            border-bottom: 3px solid var(--primary-green);
+            border-bottom: 3px solid var(--primary-teal);
             padding-bottom: 15px;
             display: inline-block;
+            font-weight: 600;
         }
 
         h3 {
             font-size: 1.8rem;
-            color: var(--primary-green);
+            color: var(--primary-teal-dark);
             margin-bottom: 1rem;
+            font-weight: 600;
         }
 
         .subtitle {
             font-size: 1.5rem;
-            color: var(--text-secondary);
+            color: var(--secondary-text);
             margin-bottom: 3rem;
+            font-weight: 400;
         }
 
         .grid {
@@ -91,21 +98,24 @@
         }
 
         .card {
-            background: var(--dark-card);
+            background: var(--white);
             padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid #3d3d3d;
-            transition: transform 0.3s ease;
+            border-radius: 16px;
+            border: 1px solid #E1E5E9;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-teal);
         }
 
         .big-number {
             font-size: 4rem;
-            color: var(--primary-orange);
-            font-weight: bold;
+            color: var(--primary-blue);
+            font-weight: 700;
             margin: 1rem 0;
         }
 
@@ -118,19 +128,26 @@
         }
 
         .simple-list li {
-            background: var(--dark-card);
+            background: var(--light-gray);
             padding: 1.5rem;
             margin: 1rem 0;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-green);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-teal);
             font-size: 1.2rem;
+            color: var(--dark-text);
+            transition: all 0.3s ease;
+        }
+
+        .simple-list li:hover {
+            background: var(--muted-beige);
+            transform: translateX(5px);
         }
 
         .highlight {
-            background: linear-gradient(90deg, var(--primary-orange), var(--primary-blue));
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-teal));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-weight: bold;
+            font-weight: 700;
         }
 
         .navigation {
@@ -144,8 +161,8 @@
         }
 
         .nav-btn {
-            background: var(--primary-orange);
-            color: white;
+            background: var(--primary-blue);
+            color: var(--white);
             border: none;
             padding: 15px 30px;
             border-radius: 25px;
@@ -153,47 +170,53 @@
             font-size: 1rem;
             font-weight: 500;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
         }
 
         .nav-btn:hover {
-            background: var(--primary-blue);
+            background: var(--primary-teal-dark);
             transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(49, 130, 206, 0.4);
         }
 
         .nav-btn:disabled {
-            background: #444;
+            background: #CBD5E0;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
 
         .slide-counter {
             position: fixed;
             top: 30px;
             right: 30px;
-            background: var(--dark-card);
-            padding: 10px 20px;
+            background: var(--white);
+            padding: 12px 24px;
             border-radius: 20px;
             font-size: 1rem;
             z-index: 100;
+            border: 1px solid #E1E5E9;
+            color: var(--dark-text);
+            font-weight: 500;
         }
 
         .prototype-btn {
             display: inline-block;
-            background: linear-gradient(135deg, var(--primary-orange), var(--primary-blue));
-            color: white;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-teal));
+            color: var(--white);
             text-decoration: none;
             padding: 20px 40px;
             border-radius: 50px;
             font-size: 1.3rem;
             font-weight: 600;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(255, 122, 0, 0.3);
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.3);
         }
 
         .prototype-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 122, 0, 0.4);
-            color: white;
+            box-shadow: 0 8px 25px rgba(49, 130, 206, 0.4);
+            color: var(--white);
         }
 
         .progress-bar {
@@ -201,7 +224,7 @@
             top: 0;
             left: 0;
             height: 4px;
-            background: var(--primary-orange);
+            background: linear-gradient(90deg, var(--primary-blue), var(--primary-teal));
             z-index: 100;
             transition: width 0.3s ease;
         }
@@ -212,12 +235,18 @@
         }
 
         .phase-item {
-            background: var(--dark-card);
+            background: var(--light-gray);
             padding: 1rem 2rem;
             margin: 0.5rem 0;
-            border-radius: 8px;
+            border-radius: 12px;
             border-left: 4px solid var(--primary-blue);
             text-align: left;
+            color: var(--dark-text);
+            transition: all 0.3s ease;
+        }
+
+        .phase-item:hover {
+            background: var(--muted-beige);
         }
 
         .advantage-grid {
@@ -269,9 +298,9 @@
         <!-- Slide 1: Titre -->
         <div class="slide active">
             <div class="slide-content">
-                <h1>🚀 SkillHub</h1>
+                <h1>🚀 SkillsHub</h1>
                 <div class="subtitle">Plateforme d'Apprentissage Moderne</div>
-                <h3>Simplifier l'accès aux compétences numériques</h3>
+                <h3>Libérez votre potentiel avec nos compétences numériques</h3>
             </div>
         </div>
 
@@ -490,7 +519,7 @@
         <div class="slide">
             <div class="slide-content">
                 <h2>🎨 Découvrez le Prototype</h2>
-                <div class="subtitle">Visualisez l'interface de SkillHub</div>
+                <div class="subtitle">Visualisez l'interface de SkillsHub</div>
                 <div class="card" style="max-width: 600px; margin: 2rem auto;">
                     <div class="emoji">🖥️</div>
                     <h3>Interface Utilisateur</h3>
